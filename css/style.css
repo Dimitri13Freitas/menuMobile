@@ -3,3 +3,27 @@
   padding: 0;
   list-style: none;
 }
+body {
+  position: relative;
+}
+.container {
+  background-color: red;
+  display: inline-block;
+  padding-right: 200px;
+  height: 100vh;
+  position: absolute;
+  /* left: -115px; */
+}
+.container nav ul {
+  background-color: black;
+  font-size: 1.5rem;
+}
+.container ul li a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: white;
+}
+.container ul li a:hover {
+  background-color: darkcyan;
+}
