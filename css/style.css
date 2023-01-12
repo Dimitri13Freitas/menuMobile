@@ -9,7 +9,7 @@ body {
 .container {
   background-color: red;
   display: inline-block;
-  padding-right: 200px;
+  padding-right: 100px;
   height: 100vh;
   position: absolute;
   /* left: -115px; */
@@ -20,7 +20,7 @@ body {
 }
 .container ul li a {
   display: block;
-  padding: 10px 15px;
+  padding: 10px 100px 10px 10px;
   text-decoration: none;
   color: white;
 }
