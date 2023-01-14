@@ -7,9 +7,9 @@ body {
   position: relative;
 }
 .container {
-  background-color: red;
+  /* background-color: red; */
   display: inline-block;
-  padding-right: 100px;
+  padding-right: 20px;
   height: 100vh;
   position: absolute;
   /* left: -115px; */
@@ -26,4 +26,8 @@ body {
 }
 .container ul li a:hover {
   background-color: darkcyan;
+}
+.debugEvent {
+  background-color: green;
+  width: 100vw;
 }
