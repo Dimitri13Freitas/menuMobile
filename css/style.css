@@ -7,12 +7,16 @@ body {
   position: relative;
 }
 .container {
-  /* background-color: red; */
+  background-color: green;
   display: inline-block;
-  padding-right: 20px;
-  height: 100vh;
+  padding-right: 100px;
+  /* height: 100vh; */
   position: absolute;
   /* left: -115px; */
+}
+.container nav {
+  background-color: red;
+  height: 100vh;
 }
 .container nav ul {
   background-color: black;
@@ -30,4 +34,7 @@ body {
 .debugEvent {
   background-color: green;
   width: 100vw;
+}
+button {
+  z-index: 1;
 }
