@@ -22,35 +22,45 @@ export class DragAndDrop {
   transition(active) {
     this.wrapper.style.transition = active ? '.3s' : '';
   }
-  teste(active) {
+  teste(active, move, end) {
     if(active) {
-      document.documentElement.addEventListener('mousemove',this.midleEvent);
-      document.documentElement.addEventListener('mouseup',this.endEvent);
-
-      document.documentElement.addEventListener('touchmove',this.midleEvent);
-      document.documentElement.addEventListener('touchend',this.endEvent);
+      document.documentElement.addEventListener(move,this.midleEvent);
+      document.documentElement.addEventListener(end,this.endEvent);
     } else {
-      document.documentElement.removeEventListener('mousemove',this.midleEvent);
-      document.documentElement.removeEventListener('mouseup',this.endEvent);
-
-      document.documentElement.removeEventListener('touchmove',this.midleEvent);
-      document.documentElement.removeEventListener('touchend',this.endEvent);
+      document.documentElement.removeEventListener(move,this.midleEvent);
+      document.documentElement.removeEventListener(end,this.endEvent);
     }
   }
   startEvent(e) {
     e.preventDefault();
-    this.values.clickPosition = e.layerX;
+    if(e.type === 'mousedown') {
+      this.values.clickPosition = e.layerX;
+      this.moveEvent = 'mousemove';
+      this.upEvent = 'mouseup';
+    } else {
+      this.values.clickPosition = e.changedTouches[0].clientX - this.navSize;
+      this.moveEvent = 'touchmove';
+      this.upEvent = 'touchend';
+    }
+    // console.log(moveEvent)
     this.transition(false);
-    this.teste(true);
+    this.teste(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
-    this.values.position = e.clientX - this.values.clickPosition;
-    this.wrapper.style.left = `${this.values.position}px`;
-    if(e.clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
-    if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize - 1}px`;
+    if(e.type === 'mousemove') {
+      this.values.position = e.clientX - this.values.clickPosition;
+      this.wrapper.style.left = `${this.values.position}px`;
+      if(e.clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
+    } else {
+      this.values.position = e.changedTouches[0].clientX - this.values.clickPosition;
+      this.wrapper.style.left = `${this.values.position}px`;
+      if(e.changedTouches[0].clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
+    }
+
+    // if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize - 1}px`;
   }
   endEvent(e) {
-    this.teste(false);
+    this.teste(false, this.moveEvent, this.upEvent);
     this.transition(true);
     if(this.values.position < (this.navSize / 2)) this.wrapper.style.left = `${this.navSize - 1}px`;
     if(this.values.position > (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
