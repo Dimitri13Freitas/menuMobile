@@ -17,7 +17,7 @@ export class DragAndDrop {
   }
   addEvents() {
     this.wrapper.addEventListener('mousedown',this.startEvent);
-    this.wrapper.addEventListener('touchstart',this.startEvent);
+    this.wrapper.addEventListener('pointerdown',this.startEvent);
   }
   transition(active) {
     this.wrapper.style.transition = active ? '.3s' : '';
@@ -38,12 +38,12 @@ export class DragAndDrop {
       this.moveEvent = 'mousemove';
       this.upEvent = 'mouseup';
     } else {
-      this.values.clickPosition = e.changedTouches[0].clientX - this.navSize;
+      this.values.clickPosition = e.layerX;
       this.moveEvent = 'touchmove';
       this.upEvent = 'touchend';
     }
-    // console.log(moveEvent)
     this.transition(false);
+    // Colocar função teste na condicional
     this.teste(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
@@ -51,13 +51,12 @@ export class DragAndDrop {
       this.values.position = e.clientX - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
       if(e.clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
-    } else {
+    } else {      
       this.values.position = e.changedTouches[0].clientX - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
       if(e.changedTouches[0].clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
     }
-
-    // if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize - 1}px`;
+    if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize - 1}px`;
   }
   endEvent(e) {
     this.teste(false, this.moveEvent, this.upEvent);
