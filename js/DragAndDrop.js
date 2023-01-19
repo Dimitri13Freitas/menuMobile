@@ -44,12 +44,12 @@ export class DragAndDrop {
     this.teste(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
+    e.preventDefault();
     if(e.type === 'mousemove') {
-      e.preventDefault();
       this.values.position = e.clientX - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
       if(e.clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
-    } else {      
+    } else {
       this.values.position = e.changedTouches[0].clientX - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
       if(e.changedTouches[0].clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
@@ -57,13 +57,31 @@ export class DragAndDrop {
     if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize - 1}px`;
   }
   endEvent(e) {
-    this.teste(false, this.moveEvent, this.upEvent);
     this.transition(true);
-    if(this.values.position < (this.navSize / 2)) this.wrapper.style.left = `${this.navSize - 1}px`;
-    if(this.values.position > (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
+    if(this.values.position < (this.navSize / 2)) {
+      this.wrapper.style.left = `${this.navSize - 1}px`;
+      this.active = !this.active;
+    };
+    if(this.values.position > (this.navSize / 2)) {
+      this.wrapper.style.left = `${0}px`;
+      this.active = true;
+    };
+    this.teste(false, this.moveEvent, this.upEvent);
   }
-  button(e) {
-    
+  buttons(btns) {
+    const buttons = document.querySelectorAll(btns);
+    buttons.forEach(e => {
+      e.addEventListener('click', () => {
+        this.active = !this.active;
+        console.log(this.active);
+        if(this.active) {
+          this.transition(true);
+          this.wrapper.style.left = `${0}px`
+        } else {
+          this.wrapper.style.left = `${this.navSize - 1}px`
+        }
+      })
+    })
   }
 
 }
