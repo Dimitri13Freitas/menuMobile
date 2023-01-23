@@ -2,11 +2,11 @@ export class DragAndDrop {
   constructor(nav, wrapper){
     this.wrapper = document.querySelector(wrapper);
     this.nav = document.querySelector(nav);
-    this.navSize = -this.nav.getBoundingClientRect().width;
-    this.values = {clickPosition: 0, position: 0,};
+    this.navSize = -this.nav.getBoundingClientRect().width - 1;
+    this.values = {clickPosition: 0, position: 0};
   }
   init() {
-    this.wrapper.style.left = `${this.navSize - 1}px`;
+    this.wrapper.style.left = `${this.navSize}px`;
     this.bind();
     this.addEvents();
   }
@@ -44,41 +44,39 @@ export class DragAndDrop {
     this.teste(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
+    e.stopPropagation();
     e.preventDefault();
+    let clientType;
     if(e.type === 'mousemove') {
-      this.values.position = e.clientX - this.values.clickPosition;
+      clientType = e.clientX;
+      this.values.position = clientType - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
-      if(e.clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
     } else {
-      this.values.position = e.changedTouches[0].clientX - this.values.clickPosition;
+      clientType = e.changedTouches[0].clientX;
+      this.values.position = clientType - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
-      if(e.changedTouches[0].clientX > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
     }
-    if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize - 1}px`;
+    if(clientType > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
+    if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize}px`;
   }
   endEvent(e) {
+    e.stopPropagation();
     this.transition(true);
-    if(this.values.position < (this.navSize / 2)) {
-      this.wrapper.style.left = `${this.navSize - 1}px`;
-      this.active = !this.active;
-    };
-    if(this.values.position > (this.navSize / 2)) {
-      this.wrapper.style.left = `${0}px`;
-      this.active = true;
-    };
+    if(this.values.position >= (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
+    if(this.values.position <= (this.navSize / 2)) this.wrapper.style.left = `${this.navSize}px`;
     this.teste(false, this.moveEvent, this.upEvent);
+    // console.log(this.values.position)
   }
   buttons(btns) {
     const buttons = document.querySelectorAll(btns);
+    // console.log(this.wrapper.style)
     buttons.forEach(e => {
       e.addEventListener('click', () => {
-        this.active = !this.active;
-        console.log(this.active);
-        if(this.active) {
-          this.transition(true);
-          this.wrapper.style.left = `${0}px`
+        this.transition(true);
+        if(this.wrapper.style.left === '0px') {
+          this.wrapper.style.left = `${this.navSize}px`;
         } else {
-          this.wrapper.style.left = `${this.navSize - 1}px`
+          this.wrapper.style.left = `${0}px`;
         }
       })
     })
