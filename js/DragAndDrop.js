@@ -21,7 +21,7 @@ export class DragAndDrop {
   transition(active) {
     this.wrapper.style.transition = active ? '.3s' : '';
   }
-  teste(active, move, end) {
+  removeEvents(active, move, end) {
     if(active) {
       document.documentElement.addEventListener(move,this.midleEvent);
       document.documentElement.addEventListener(end,this.endEvent);
@@ -31,6 +31,7 @@ export class DragAndDrop {
     }
   }
   startEvent(e) {
+    e.stopPropagation();
     if(e.pointerType === 'mouse') {
       this.values.clickPosition = e.layerX;
       this.moveEvent = 'mousemove';
@@ -41,7 +42,7 @@ export class DragAndDrop {
       this.upEvent = 'touchend';
     }
     this.transition(false);
-    this.teste(true, this.moveEvent, this.upEvent);
+    this.removeEvents(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
     e.stopPropagation();
@@ -60,20 +61,21 @@ export class DragAndDrop {
     if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize}px`;
   }
   endEvent(e) {
+    e.preventDefault();
     e.stopPropagation();
     this.transition(true);
     if(this.values.position >= (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
-    if(this.values.position <= (this.navSize / 2)) this.wrapper.style.left = `${this.navSize}px`;
-    this.teste(false, this.moveEvent, this.upEvent);
-    // console.log(this.values.position)
+    else {this.wrapper.style.left = `${this.navSize}px`;}
+    this.removeEvents(false, this.moveEvent, this.upEvent);
   }
-  buttons(btns) {
-    const buttons = document.querySelectorAll(btns);
-    // console.log(this.wrapper.style)
-    buttons.forEach(e => {
-      e.addEventListener('click', () => {
+  menuButtons(btns) {
+    this.buttons = document.querySelectorAll(btns);
+    this.buttons.forEach(e => {
+      e.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         this.transition(true);
-        if(this.wrapper.style.left === '0px') {
+        if(e.target.offsetParent === this.wrapper) {
           this.wrapper.style.left = `${this.navSize}px`;
         } else {
           this.wrapper.style.left = `${0}px`;
