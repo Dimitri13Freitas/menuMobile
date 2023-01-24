@@ -17,7 +17,6 @@ Exemplo:
 
 ```html
 <script type="module" src="./js/script.js"></script>
-;
 ```
 
 ```js
@@ -29,96 +28,48 @@ const menu = new MenuMobile();
 
 Para que o plugin funcione é necessario colocar dois elementos HTML como parâmetro da classe. Neste caso são:
 
-- O container que será o elemento pai de toda que vai ser usado como 'wrapper'.
+- O container que será o elemento pai de tudo, que vai ser usado como 'wrapper'.
 - E sua navegação.
+  
+Exemplo:
 
 ```js
-// Apenas o elemento para receber valores e os elementos para a comparação
-const searchBar = new SearchOnKeyDown("input", "ul li");
-```
-
-Caso seus elementos de pesquisa possuem filhos é acrescentado mais um parâmetro, Exemplo:
-
-```js
-// Esta é a mesma lógica do exemplo a cima, porém e preciso adicionar o tópico que deseja usarm como elemento de comparação
-const searchBar = new SearchOnKeyDown("input", ".container div", "h1");
+const menu = new MenuMobile('wrapper', 'wrapper nav');
 ```
 
 Logo após isso inicie o script com:
 
 ```js
-searchBar.init();
+menu.init();
 ```
 
 Assim já está pronto para uso.
 
-Se ainda resta alguma dúvida olhe a pasta de `examples` no repositório, onde tem os dois exemplos na prática.
+Se ainda resta alguma dúvida olhe a pasta de `example` no repositório.
 
-## Preferências
+## Menu Buttons
 
-A seguir vem funções que você pode ou não ativar, pois não afetam no propósito principal do plugin:
-
-### FocusOnLoad
-
-Com esta função ativa o elemento input já vai estar pronto para escrita sem que precise ser selecionado a cada carregamento de página.
+Para o uso de botões em seu menu identifique os botões com uma mesma classe ou id, passe o respectivo valor em:
 
 ```js
-// Considerando os exemplos ja vistos
-searchBar.focusOnLoad();
+menu.menuButtons('.btns');
 ```
 
-### Anima
+OBS: Para que os botões funcionem um dos botões precisam estar dentro do elemento pai, ou seja dentro do wrapper.
 
-A cada evento de pesquisa irá ser executada uma animação que você mesmo pode criar.
-Atribuindo a sua animação a uma classe só é necessario colocar a mesma como parametro na função
+## CSS Mínimo
 
-```js
-searchBar.anima("anima");
-// Considere o exemplo a abaixo
-```
+Qualquer propriedade a mais pode ser adicionada com base no seu projeto e necessidade.
+
+
 
 ```css
-/* Este é um exemplo de animação no CSS, não se limite a somente isso use sua criatividade */
-.anima {
-  animation: animacao 0.3s;
-}
-@keyframes animacao {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* O 'padding-right' pode ter o valor que desejar, porém ele precisa existir.*/
+.wrapper {
+  padding-right: 30px;
+  position: absolute;
+  touch-action: none;
 }
 ```
 
-### LoadEffect
-
-Semelhante a função de Anima vista acima, porém só é preciso colocar o elemento que você mesmo pode criar com sua criatividade.
-
-```js
-searchBar.loadEffect(".loadElement");
-// Considere o exemplo a abaixo
-```
-
-```html
-<div class="loadElement"></div>
-```
-
-```css
-/* Para que o script funcione da melhor forma é preciso colocar o loadElement como "display: none;" */
-.loadElement {
-  display: none;
-  height: 5px;
-  animation: animacao;
-}
-
-@keyframes animacao {
-  from {
-    width: 0;
-  }
-  to {
-    width: 30px;
-  }
-}
-```
+caso tenha dificuldades de aplicar o plugin da melhor forma olhe o diretório de `example` e use como base.
