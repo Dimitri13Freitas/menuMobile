@@ -1,5 +1,5 @@
-import { DragAndDrop } from '../js/DragAndDrop.js';
+import { MenuMobile } from '../js/menuMobile.js';
 
-const seila = new DragAndDrop('#wrapper nav','#wrapper', 'button');
+const seila = new MenuMobile('#wrapper nav','#wrapper');
 seila.menuButtons('.btn-menu');
 seila.init();

@@ -1,4 +1,4 @@
-export class DragAndDrop {
+export class MenuMobile {
   constructor(nav, wrapper){
     this.wrapper = document.querySelector(wrapper);
     this.nav = document.querySelector(nav);
@@ -45,7 +45,6 @@ export class DragAndDrop {
     this.removeEvents(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
-    e.stopPropagation();
     e.preventDefault();
     let clientType;
     if(e.type === 'mousemove') {
@@ -60,26 +59,20 @@ export class DragAndDrop {
     if(clientType > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
     if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize}px`;
   }
-  endEvent(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  endEvent() {
     this.transition(true);
     if(this.values.position >= (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
-    else {this.wrapper.style.left = `${this.navSize}px`;}
+      else this.wrapper.style.left = `${this.navSize}px`;
     this.removeEvents(false, this.moveEvent, this.upEvent);
   }
   menuButtons(btns) {
-    this.buttons = document.querySelectorAll(btns);
-    this.buttons.forEach(e => {
+    const buttons = document.querySelectorAll(btns);
+    buttons.forEach(e => {
       e.addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation();
         this.transition(true);
-        if(e.target.offsetParent === this.wrapper) {
-          this.wrapper.style.left = `${this.navSize}px`;
-        } else {
-          this.wrapper.style.left = `${0}px`;
-        }
+        if(e.target.offsetParent === this.wrapper) this.wrapper.style.left = `${this.navSize}px` 
+          else this.wrapper.style.left = `${0}px`;
       })
     })
   }
