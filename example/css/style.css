@@ -9,6 +9,7 @@
 body {
   background-color: #e4e9f7;
   font-family: "Poppins", Arial, Helvetica, sans-serif;
+  touch-action: none;
 }
 header {
   padding: 20px 40px;
@@ -38,7 +39,8 @@ header button:hover::before {
   background-color: white;
   box-shadow: 0 8px white, 0 -8px white;
 }
-h1 {
+h1,
+h2 {
   font-weight: normal;
   color: #726f70;
 }
@@ -48,16 +50,14 @@ h1 {
   padding-right: 30px;
 }
 nav {
-  height: 100vh;
+  height: calc(100vh - 20px);
   background: white;
-  padding: 20px 30px 0px 30px;
-  display: inline-block;
+  padding: 20px 30px 0px 30px; /*jbdhuad*/
 }
-nav div {
+.menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 50px;
 }
 nav .btn {
   background-color: white;
@@ -66,17 +66,37 @@ nav .btn:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 ul {
-  margin-top: 50px;
   display: flex;
-  gap: 20px;
+  gap: 18px;
   flex-direction: column;
 }
 ul li {
-  padding: 8px 20px;
-  border: 1px #695cf6 solid;
+  padding: 8px 0px 8px 15px;
   border-radius: 5px;
+  color: #726f70;
+  transition: 0.3s ease-in-out;
+  display: block;
 }
 ul li:hover {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.1);
+}
+input {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  font-size: 1rem;
+  padding: 12px 0px 12px 10px;
+  border-radius: 5px;
+  margin: 25px 0;
+}
+input:focus {
+  outline: #695cf6 1px solid;
+}
+input::placeholder {
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+}
+@media (max-width: 400px) {
+  .menu {
+    justify-content: space-between;
+  }
 }
