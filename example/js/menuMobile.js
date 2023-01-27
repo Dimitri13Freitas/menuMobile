@@ -6,7 +6,7 @@ export class MenuMobile {
     this.values = {clickPosition: 0, position: 0};
   }
   init() {
-    this.wrapper.style.left = `${this.navSize}px`;
+    this.activePage(false);
     this.bind();
     this.addEvents();
   }
@@ -17,6 +17,10 @@ export class MenuMobile {
   }
   addEvents() {
     document.documentElement.addEventListener('pointerdown',this.startEvent);
+  }
+  activePage(e) {
+    if(e) this.wrapper.style.left = `${0}px`;
+      else this.wrapper.style.left = `${this.navSize}px`;
   }
   transition(active) {
     this.wrapper.style.transition = active ? '.3s' : '';
@@ -46,7 +50,7 @@ export class MenuMobile {
       this.removeEvents(true, this.moveEvent, this.upEvent);
     } else {
       if(e.target.offsetParent === document.body || e.target.offsetParent === null) {
-        this.wrapper.style.left = `${this.navSize}px`;
+        this.activePage(false);
       }
     }
   }
@@ -62,13 +66,13 @@ export class MenuMobile {
       this.values.position = clientType - this.values.clickPosition;
       this.wrapper.style.left = `${this.values.position}px`;
     }
-    if(clientType > this.values.clickPosition) this.wrapper.style.left = `${0}px`;
-    if(this.values.position < this.navSize) this.wrapper.style.left = `${this.navSize}px`;
+    if(clientType > this.values.clickPosition) this.activePage(true);
+    if(this.values.position < this.navSize) this.activePage(false);
   }
   endEvent() {
     this.transition(true);
-    if(this.values.position >= (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
-      else this.wrapper.style.left = `${this.navSize}px`;
+    if(this.values.position >= (this.navSize / 2)) this.activePage(true);
+      else this.activePage(false);
     this.removeEvents(false, this.moveEvent, this.upEvent);    
   }
   menuButtons(btns) {
@@ -79,9 +83,9 @@ export class MenuMobile {
         e.stopPropagation();
         this.transition(true);
         if(e.target.offsetParent === this.wrapper) {
-          this.wrapper.style.left = `${this.navSize}px`;
+          this.activePage(false);
         } else {
-          this.wrapper.style.left = `${0}px`;
+          this.activePage(true);
         };
       })
     })
