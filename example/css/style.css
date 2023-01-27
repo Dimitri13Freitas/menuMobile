@@ -48,11 +48,12 @@ h2 {
   position: absolute;
   top: 0;
   padding-right: 30px;
+  background-color: green;
 }
 nav {
   height: calc(100vh - 20px);
   background: white;
-  padding: 20px 30px 0px 30px; /*jbdhuad*/
+  padding: 20px 30px 0px 30px;
 }
 .menu {
   display: flex;
@@ -99,4 +100,17 @@ input::placeholder {
   .menu {
     justify-content: space-between;
   }
+}
+
+.teste li {
+  padding: 100px;
+  background-color: red;
+}
+.teste li button {
+  margin-left: 300px;
+}
+.seila {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
 }

@@ -16,7 +16,7 @@ export class MenuMobile {
     this.endEvent = this.endEvent.bind(this);
   }
   addEvents() {
-    this.wrapper.addEventListener('pointerdown',this.startEvent);
+    document.documentElement.addEventListener('pointerdown',this.startEvent);
   }
   transition(active) {
     this.wrapper.style.transition = active ? '.3s' : '';
@@ -32,17 +32,23 @@ export class MenuMobile {
   }
   startEvent(e) {
     e.stopPropagation();
-    if(e.pointerType === 'mouse') {
-      this.values.clickPosition = e.layerX;
-      this.moveEvent = 'mousemove';
-      this.upEvent = 'mouseup';
+    if(e.target === this.wrapper) {
+      if(e.pointerType === 'mouse') {
+        this.values.clickPosition = e.layerX;
+        this.moveEvent = 'mousemove';
+        this.upEvent = 'mouseup';
+      } else {
+        this.values.clickPosition = e.layerX;
+        this.moveEvent = 'touchmove';
+        this.upEvent = 'touchend';
+      }
+      this.transition(false);
+      this.removeEvents(true, this.moveEvent, this.upEvent);
     } else {
-      this.values.clickPosition = e.layerX;
-      this.moveEvent = 'touchmove';
-      this.upEvent = 'touchend';
+      if(e.target.offsetParent === document.body || e.target.offsetParent === null) {
+        this.wrapper.style.left = `${this.navSize}px`;
+      }
     }
-    this.transition(false);
-    this.removeEvents(true, this.moveEvent, this.upEvent);
   }
   midleEvent(e) {
     e.preventDefault();
@@ -63,18 +69,21 @@ export class MenuMobile {
     this.transition(true);
     if(this.values.position >= (this.navSize / 2)) this.wrapper.style.left = `${0}px`;
       else this.wrapper.style.left = `${this.navSize}px`;
-    this.removeEvents(false, this.moveEvent, this.upEvent);
+    this.removeEvents(false, this.moveEvent, this.upEvent);    
   }
   menuButtons(btns) {
     const buttons = document.querySelectorAll(btns);
-    buttons.forEach(e => {
-      e.addEventListener('click', (e) => {
+    buttons.forEach(element => {
+      element.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         this.transition(true);
-        if(e.target.offsetParent === this.wrapper) this.wrapper.style.left = `${this.navSize}px` 
-          else this.wrapper.style.left = `${0}px`;
+        if(e.target.offsetParent === this.wrapper) {
+          this.wrapper.style.left = `${this.navSize}px`;
+        } else {
+          this.wrapper.style.left = `${0}px`;
+        };
       })
     })
   }
-
 }
